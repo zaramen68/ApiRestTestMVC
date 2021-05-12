@@ -120,7 +120,7 @@ namespace ApiRestTestMVC.Controllers
             }
            
 
-            return CreatedAtAction("GetCodeValue", new { id = codeValue.Id }, codeValue);
+            return NoContent();
         }
 
         // DELETE: api/CodeValuesAPI/5
