@@ -13,7 +13,7 @@ using System.Net.Http;
 namespace ApiRestTestMVC.Controllers
 {
     [Route("api/[controller]")]
-   // [ApiController]
+    [ApiController]
     public class CodeValuesAPIController : ControllerBase
     {
         private readonly cvContext _context;
@@ -88,14 +88,19 @@ namespace ApiRestTestMVC.Controllers
 
         [HttpPost]
         [Route("Fromlist")]
-        public async Task<ActionResult> Fromlist(string jsonString)
+        public async Task<ActionResult<List<CodeValueData>>> Fromlist(List<CodeValueData> dataList)
         {
             string content = Request.Scheme;
 
            
-            CodeValue codeValue;
+            foreach (CodeValueData codeValue in dataList)
+            {
+                content += "aa";
+                
+            } 
             var weather = HttpContext.Request.Body;
-            var dataList = JsonSerializer.Deserialize<List<CodeValueData>>(jsonString);
+           // var dataList = JsonSerializer.Deserialize<List<CodeValueData>>(jsonString);
+           /*
             dataList.Sort(delegate (CodeValueData item1, CodeValueData item2)
             {
                 int res;
@@ -122,6 +127,7 @@ namespace ApiRestTestMVC.Controllers
                 _context.CodeValues.Add(codeValue);
                 _context.SaveChangesAsync();
             }
+           */
            
 
             return NoContent();

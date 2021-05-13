@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ApiRestTestMVC.Models;
+using System.Text.Json;
 
 namespace ApiRestTestMVC.Controllers
 {
@@ -147,6 +148,51 @@ namespace ApiRestTestMVC.Controllers
         private bool CodeValueExists(int id)
         {
             return _context.CodeValues.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        [Route("Fromlist")]
+        public async Task<ActionResult<List<CVData>>> Fromlist(List<CVData> js)
+        {
+            CodeValue codeValue;
+            string content = Request.Scheme;
+
+
+           
+            //var dataList = JsonSerializer.Deserialize<List<CVData>>(js);
+            /* 
+             dataList.Sort(delegate (CodeValueData item1, CodeValueData item2)
+             {
+                 int res;
+                 if (int.TryParse(item1.Data.Keys.First()) > int.TryParse(item2.Data.Keys.First()))
+                 {
+                     res = 1;
+
+                 }
+                 else if (int.TryParse(item1.Data.Keys.First()) < int.TryParse(item2.Data.Keys.First()))
+                 {
+                     res = -1;
+                 }
+                 else
+                 {
+                     res = 0;
+                 }
+                 return res;
+             });
+            */
+            /*
+            foreach (VCData item in js)
+            {
+                codeValue = new CodeValue();
+                codeValue.Code = int.Parse(item.Data.Keys.First());
+                codeValue.Value = item.Data.Values.First();
+                _context.CodeValues.Add(codeValue);
+                _context.SaveChangesAsync();
+            }
+            
+            */
+
+            return NoContent();
         }
     }
 }

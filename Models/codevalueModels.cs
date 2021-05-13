@@ -14,8 +14,14 @@ namespace ApiRestTestMVC.Models
 
     public class CodeValueData
     {
+        public int Code { get; set; }
+        public string Value { get; set; }
+        //
 
+    }
+
+    public class CVData
+    {
         public Dictionary<string, string> Data {get; set;}
-       
     }
 }
