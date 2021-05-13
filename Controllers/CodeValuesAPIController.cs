@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using ApiRestTestMVC.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Net.Http;
 
 namespace ApiRestTestMVC.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+   // [ApiController]
     public class CodeValuesAPIController : ControllerBase
     {
         private readonly cvContext _context;
@@ -44,8 +45,7 @@ namespace ApiRestTestMVC.Controllers
         }
 
         // PUT: api/CodeValuesAPI/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCodeValue(int id, CodeValue codeValue)
         {
@@ -76,8 +76,7 @@ namespace ApiRestTestMVC.Controllers
         }
 
         // POST: api/CodeValuesAPI
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPost]
         public async Task<ActionResult<CodeValue>> PostCodeValue(CodeValue codeValue)
         {
@@ -88,9 +87,14 @@ namespace ApiRestTestMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CodeValue>> PostListCodeValue(string jsonString)
+        [Route("Fromlist")]
+        public async Task<ActionResult> Fromlist(string jsonString)
         {
+            string content = Request.Scheme;
+
+           
             CodeValue codeValue;
+            var weather = HttpContext.Request.Body;
             var dataList = JsonSerializer.Deserialize<List<CodeValueData>>(jsonString);
             dataList.Sort(delegate (CodeValueData item1, CodeValueData item2)
             {
@@ -116,11 +120,18 @@ namespace ApiRestTestMVC.Controllers
                 codeValue.Code = int.Parse(item.Data.Keys.First());
                 codeValue.Value = item.Data.Values.First();
                 _context.CodeValues.Add(codeValue);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
             }
            
 
             return NoContent();
+        }
+
+        [HttpPost]
+        [Route("PostData")]
+        public string PostData(string js)
+        {
+            return "Параметр запроса: " + js;
         }
 
         // DELETE: api/CodeValuesAPI/5

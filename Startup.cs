@@ -25,6 +25,7 @@ namespace ApiRestTestMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<cvContext>();
+           
             services.AddControllersWithViews();
         }
 
@@ -46,13 +47,13 @@ namespace ApiRestTestMVC
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=CodeValues}/{action=Index}/{id?}");
             });
         }
     }
