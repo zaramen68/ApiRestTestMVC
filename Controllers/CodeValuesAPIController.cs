@@ -100,6 +100,7 @@ namespace ApiRestTestMVC.Controllers
                 
             } 
             var weather = HttpContext.Request.Body;
+            /*
             var dataList = JsonSerializer.Deserialize<List<CodeValueData>>(jsonString);
             dataList.Sort(delegate (CodeValueData item1, CodeValueData item2)
             {
@@ -127,7 +128,7 @@ namespace ApiRestTestMVC.Controllers
                 _context.CodeValues.Add(codeValue);
                 _context.SaveChangesAsync();
             }
-           
+           */
 
             return NoContent();
         }
