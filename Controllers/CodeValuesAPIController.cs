@@ -88,14 +88,16 @@ namespace ApiRestTestMVC.Controllers
 
         [HttpPost]
         [Route("Fromlist")]
-        public async Task<ActionResult> Fromlist(string jsonString)
+        public async Task<ActionResult<List<CodeValue>>> Fromlist(List<CodeValue> dataList)
         {
             string content = Request.Scheme;
+            //string jsonString = [];
 
            
             CodeValue codeValue;
             var weather = HttpContext.Request.Body;
-            var dataList = JsonSerializer.Deserialize<List<CodeValueData>>(jsonString);
+            //var dataList = JsonSerializer.Deserialize<List<CodeValueData>>(jsonString);
+            /*
             dataList.Sort(delegate (CodeValueData item1, CodeValueData item2)
             {
                 int res;
@@ -122,7 +124,7 @@ namespace ApiRestTestMVC.Controllers
                 _context.CodeValues.Add(codeValue);
                 _context.SaveChangesAsync();
             }
-           
+           */
 
             return NoContent();
         }
