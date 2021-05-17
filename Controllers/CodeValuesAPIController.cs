@@ -9,6 +9,9 @@ using ApiRestTestMVC.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
+using System.IO;
+using System.Buffers;
+using System.Text;
 
 namespace ApiRestTestMVC.Controllers
 {
@@ -135,9 +138,46 @@ namespace ApiRestTestMVC.Controllers
 
         [HttpPost]
         [Route("PostData")]
-        public string PostData(string js)
+        public async Task<String> PostDataAsync()
         {
-            return "Параметр запроса: " + js;
+            Stream requestBody = Request.Body;
+
+            /*
+            using (var reader = new StreamReader(Request.Body))
+            {
+                // var body = reader.ReadToEnd();
+                var body = reader.ReadToEndAsync();
+
+                // Do something
+            }
+
+            */
+            StringBuilder builder = new StringBuilder();
+
+            // Rent a shared buffer to write the request body into.
+            byte[] buffer = ArrayPool<byte>.Shared.Rent(4096);
+
+            while (true)
+            {
+                var bytesRemaining = await requestBody.ReadAsync(buffer, offset: 0, buffer.Length);
+                if (bytesRemaining == 0)
+                {
+                    break;
+                }
+
+                // Append the encoded string into the string builder.
+                var encodedString = Encoding.UTF8.GetString(buffer, 0, bytesRemaining);
+                builder.Append(encodedString);
+            }
+
+            ArrayPool<byte>.Shared.Return(buffer);
+
+            var entireRequestBody = builder.ToString();
+
+
+
+
+            return entireRequestBody;
         }
 
         // DELETE: api/CodeValuesAPI/5
